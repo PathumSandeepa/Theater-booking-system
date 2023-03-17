@@ -1,8 +1,9 @@
 package newTheatre.com;
 
 import java.io.*;
-import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Theatre {
@@ -73,10 +74,9 @@ public class Theatre {
                     case 7:
                         show_tickets_info();
                         break;
-                    //                    case 8:
-                    //                        //Sort tickets by price
-                    //                        System.out.println("Enter option: ");
-                    //                        break;
+                    case 8:
+                        sort_tickets();
+                        break;
                     case 0:
                         exit();
                         break;
@@ -87,7 +87,8 @@ public class Theatre {
                 }
             } catch (Exception e) {
                 Input.next();
-                System.out.println( "Your input is not a integer. input valid integer");}
+                System.out.println("Your input is not a integer. input valid integer");
+            }
         }
     }
 
@@ -352,10 +353,11 @@ public class Theatre {
     public static void save() {
         try {
             BufferedWriter arrayWrite = new BufferedWriter(new FileWriter("Theater Seat.txt"));
-            for( int i = 0 ; i < seatsInTheater.length; i++){
-                for( int j = 0 ; j < seatsInTheater[i].length; j++ ){
-                    arrayWrite.write(seatsInTheater[i][j]+" ");
-                }arrayWrite.newLine();
+            for (int i = 0; i < seatsInTheater.length; i++) {
+                for (int j = 0; j < seatsInTheater[i].length; j++) {
+                    arrayWrite.write(seatsInTheater[i][j] + " ");
+                }
+                arrayWrite.newLine();
             }
             System.out.println("Data saved to file.");
             arrayWrite.close();
@@ -395,7 +397,7 @@ public class Theatre {
 
         System.out.println();
         double totalPrice = 0.0;
-        for (int i=0; i<ticketDetails.size(); i++){
+        for (int i = 0; i < ticketDetails.size(); i++) {
             totalPrice = totalPrice + ticketDetails.get(i).getPrice();
         }
 
@@ -403,10 +405,21 @@ public class Theatre {
 
     }
 
+    public static void sort_tickets() {
+        Collections.sort(ticketDetails, new Comparator<Ticket>() {
+            @Override
+            public int compare(Ticket ticket1, Ticket ticket2) {
+                int priceSort = (int) (ticket1.getPrice() - ticket2.getPrice());
+                return priceSort;
+            }
+        });
+        menu();
+    }
+
 
     public static void exit() {
         System.out.println("""
-                ------------------------------------------------------------------------------------------------      
+                ------------------------------------------------------------------------------------------------   
                                                           T H A N K   Y O U !
                 ------------------------------------------------------------------------------------------------
                 """);
