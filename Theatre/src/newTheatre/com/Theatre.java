@@ -3,7 +3,6 @@ package newTheatre.com;
 import java.io.*;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Theatre {
@@ -147,7 +146,7 @@ public class Theatre {
                 } else {
                     seatsInTheater[1][seat_number] = 1;
                     person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, 100.0, person);
+                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
                     System.out.println();
                     System.out.println("Seat booked successfully!");
                     System.out.println();
@@ -169,7 +168,7 @@ public class Theatre {
                 } else {
                     seatsInTheater[2][seat_number] = 1;
                     person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, 100.0, person);
+                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
                     System.out.println();
                     System.out.println("Seat booked successfully!");
                     System.out.println();
@@ -257,6 +256,9 @@ public class Theatre {
         System.out.print("Enter seat number:  ");
         int seat_number = Input.nextInt() - 1;
 
+        System.out.print("Refund a customer price");
+        double price = Input.nextDouble();
+
         if (row_number == 0) {
             if (seat_number >= 0 && seat_number <= 11) {
                 if (seatsInTheater[0][seat_number] == 0) {
@@ -265,7 +267,7 @@ public class Theatre {
                 } else {
                     seatsInTheater[0][seat_number] = 0;
                     person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, 100.0, person);
+                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
                     ticketDetails.remove(ticket);
                     System.out.println(" Successfully canceled ");
                     menu();
@@ -284,7 +286,7 @@ public class Theatre {
                 } else {
                     seatsInTheater[1][seat_number] = 0;
                     person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, 100.0, person);
+                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
                     ticketDetails.remove(ticket);
                     System.out.println(" Successfully canceled ");
                     menu();
@@ -302,7 +304,7 @@ public class Theatre {
                 } else {
                     seatsInTheater[2][seat_number] = 0;
                     person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, 100.0, person);
+                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
                     ticketDetails.remove(ticket);
                     System.out.println(" Successfully canceled ");
                     menu();
@@ -385,12 +387,19 @@ public class Theatre {
     }
 
 
-
     public static void show_tickets_info() {
         ticketDetails.forEach((n) -> {
             Ticket currentTicket = n;
             currentTicket.print();
         });
+
+        System.out.println();
+        double totalPrice = 0.0;
+        for (int i=0; i<ticketDetails.size(); i++){
+            totalPrice = totalPrice + ticketDetails.get(i).getPrice();
+        }
+
+        System.out.println("Total ticket price " + totalPrice);
 
     }
 
