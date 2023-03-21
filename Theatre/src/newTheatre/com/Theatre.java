@@ -2,35 +2,37 @@ package newTheatre.com;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class Theatre {
-    private static final int[][] seatsInTheater = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    //This 2D array stores all the seats in the system.
+    private static int[][] seatsInTheater = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     private static Person person;
     private static Ticket ticket;
+    //This array list stores name, surname, email, row number, and price.
     private static ArrayList<Ticket> ticketDetails = new ArrayList<Ticket>();
 
+    //this is main method. main method print program welcome message and calling menu method.
     public static void main(String[] args) {
-        System.out.print("\u001B[1m");
-        System.out.print("\u001B[36m");
+        System.out.println();
         System.out.println("------------------------------------------------------------------------------------------------");
         System.out.println("                                  Welcome to the New Theatre                                    ");
         System.out.println("------------------------------------------------------------------------------------------------");
-        System.out.print("\u001B[0m");
+        System.out.println();
 
         menu();
+        System.out.println();
     }
 
+    //This is menu method print program menu. then get each manu item number from user.
+    //switch case (Arrow syntax) used for user input validation part.
+    //when user enter string value, then program handle that case using try catch.
     public static void menu() {
         Scanner Input = new Scanner(System.in);
-        System.out.print("\u001B[1m");
-        System.out.print("\u001B[38;2;138;201;38m");
         System.out.print("""
-                -----------------------\u001B[0m\u001B[1mMENU\u001B[0m\u001B[38;2;138;201;38m--------------------------
+                -----------------------MENU----------------------
                 Please select an option:
                 1) Buy a ticket
                 2) Print seating area
@@ -44,8 +46,7 @@ public class Theatre {
                 -------------------------------------------------
                 """
         );
-        System.out.print("\u001B[0m");
-
+//        System.out.print( );
 
         while (true) {
             System.out.print("Enter option: ");
@@ -53,37 +54,18 @@ public class Theatre {
                 int menuInput = Input.nextInt();     //get menu option number from user
 
                 switch (menuInput) {
-                    case 1:
-                        buy_ticket();
-                        break;
-                    case 2:
-                        print_seating_area();
-                        break;
-                    case 3:
-                        cancel_ticket();
-                        break;
-                    case 4:
-                        show_available();
-                        break;
-                    case 5:
-                        save();
-                        break;
-                    case 6:
-                        load();
-                        break;
-                    case 7:
-                        show_tickets_info();
-                        break;
-                    case 8:
-                        sort_tickets();
-                        break;
-                    case 0:
-                        exit();
-                        break;
-                    default:
-                        System.out.println("Enter Valid Input");
-                        menu();
-                        break;
+                    case 1 -> buy_ticket();
+                    case 2 -> print_seating_area();
+                    case 3 -> cancel_ticket();
+                    case 4 -> show_available();
+                    case 5 -> save();
+                    case 6 -> load();
+                    case 7 -> show_tickets_info();
+                    case 8 -> sort_tickets();
+                    case 0 -> exit();
+                    default -> {System.out.println("Enter Valid Input");
+                                menu();
+                    }
                 }
             } catch (Exception e) {
                 Input.next();
@@ -93,7 +75,11 @@ public class Theatre {
     }
 
 
-    //buy ticket method
+    //This is buy ticket method. In menu printing part, when user enter 1, then this method will run.
+    //This method get user details, row number and seat number using scanner.
+    //Then validate each row number and each row's seat number input is in 2D array range.
+    //check each row's seat number = 1 ?. then print "Seat is already booked".
+    //check each row's seat number = 0 ?. then set seat number = 1. print  "Seat booked successfully!".
     public static void buy_ticket() {
         Scanner Input = new Scanner(System.in);
 
@@ -107,25 +93,25 @@ public class Theatre {
         String email = Input.nextLine();
 
         System.out.print("Enter row number:  ");
-        int row_number = Input.nextInt() - 1;
+        int row_number = Input.nextInt() ;
 
         System.out.print("Enter seat number:  ");
-        int seat_number = Input.nextInt() - 1;
+        int seat_number = Input.nextInt();
 
         System.out.print("Enter price:  ");
         double price = Input.nextDouble();
 
         //validation part
-        if (row_number == 0) {
-            if (seat_number >= 0 && seat_number <= 11) {
-                if (seatsInTheater[0][seat_number] == 1) {
+        if (row_number == 1 ) {
+            if (seat_number >= 0 && seat_number <= 12) {
+                if (seatsInTheater[0][seat_number-1] == 1) {
                     System.out.println("Seat is already booked.");
                     System.out.println();
                     buyTicket_continue();
                 } else {
-                    seatsInTheater[0][seat_number] = 1;
+                    seatsInTheater[0][seat_number-1] = 1;
                     person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
+                    ticket = new Ticket(row_number, seat_number, price, person);
                     System.out.println();
                     System.out.println("Seat booked successfully!");
                     System.out.println();
@@ -136,40 +122,38 @@ public class Theatre {
                 System.out.println("Invalid seat number.");
                 buyTicket_continue();
             }
-
-
-        } else if (row_number == 1) {
-            if (seat_number >= 0 && seat_number <= 15) {
-                if (seatsInTheater[1][seat_number] == 1) {
-                    System.out.println("Seat is already booked.");
-                    System.out.println();
-                    buyTicket_continue();
-                } else {
-                    seatsInTheater[1][seat_number] = 1;
-                    person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
-                    System.out.println();
-                    System.out.println("Seat booked successfully!");
-                    System.out.println();
-                    ticketDetails.add(ticket);
-                    menu();
-                }
-            } else {
-                System.out.println("Invalid seat number.");
-                buyTicket_continue();
-            }
-
 
         } else if (row_number == 2) {
-            if (seat_number >= 0 && seat_number <= 19) {
-                if (seatsInTheater[2][seat_number] == 1) {
+            if (seat_number >= 0 && seat_number <= 16) {
+                if (seatsInTheater[1][seat_number-1] == 1) {
                     System.out.println("Seat is already booked.");
                     System.out.println();
                     buyTicket_continue();
                 } else {
-                    seatsInTheater[2][seat_number] = 1;
+                    seatsInTheater[1][seat_number-1] = 1;
                     person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
+                    ticket = new Ticket(row_number, seat_number, price, person);
+                    System.out.println();
+                    System.out.println("Seat booked successfully!");
+                    System.out.println();
+                    ticketDetails.add(ticket);
+                    menu();
+                }
+            } else {
+                System.out.println("Invalid seat number.");
+                buyTicket_continue();
+            }
+
+        } else if (row_number == 3) {
+            if (seat_number >= 0 && seat_number <= 20) {
+                if (seatsInTheater[2][seat_number-1] == 1) {
+                    System.out.println("Seat is already booked.");
+                    System.out.println();
+                    buyTicket_continue();
+                } else {
+                    seatsInTheater[2][seat_number-1] = 1;
+                    person = new Person(name, surName, email);
+                    ticket = new Ticket(row_number, seat_number, price, person);
                     System.out.println();
                     System.out.println("Seat booked successfully!");
                     System.out.println();
@@ -187,7 +171,10 @@ public class Theatre {
         }
     }
 
-
+    // In buy ticket part, when user enter already entered row and seat number, then display  "Seat is already booked".
+    //After that message buyTicket_continue() method running.
+    //In buyTicket_continue method ask "Would you like to continue with buy ticket option?".
+    // user answer is yes, then run again buy_ticket method. if no, run menu method.
     public static void buyTicket_continue() {
         Scanner Input = new Scanner(System.in);
         System.out.println();
@@ -203,7 +190,8 @@ public class Theatre {
         }
     }
 
-
+    //This is seating area printing method. when user book a seat, then in 2D array 0 is changing to 1. when cancel a seat, then in 2D array 1 is changing to 0.
+    //that updated changes print this method when user enter menu number 2
     private static void print_seating_area() {
         System.out.println("""
                  
@@ -238,75 +226,66 @@ public class Theatre {
     }
 
 
+    //This is buy ticket method. In menu printing part, when user enter 3, then this method will run.
+    //This method get user details, row number and seat number using scanner.
+    //Then validate each row number and each row's seat number input is in 2D array range.
+    //check each row's seat number = 0 ?. then print "It's Free seat. you can't cancel this seat".
+    //check each row's seat number = 1 ?. then set seat number = 0. print  "Successfully canceled ".
     public static void cancel_ticket() {
 
         Scanner Input = new Scanner(System.in);
 
-        System.out.print("Enter row name:  ");
-        String name = Input.nextLine();
-
-        System.out.print("Enter row surname:  ");
-        String surName = Input.nextLine();
-
-        System.out.print("Enter row email:  ");
-        String email = Input.nextLine();
-
         System.out.print("Enter row number:  ");
-        int row_number = Input.nextInt() - 1;
+        int row_number = Input.nextInt();
 
         System.out.print("Enter seat number:  ");
-        int seat_number = Input.nextInt() - 1;
+        int seat_number = Input.nextInt();
 
-        System.out.print("Refund a customer price");
-        double price = Input.nextDouble();
-
-        if (row_number == 0) {
+        if (row_number == 1) {
             if (seat_number >= 0 && seat_number <= 11) {
-                if (seatsInTheater[0][seat_number] == 0) {
+                if (seatsInTheater[0][seat_number-1] == 0) {
                     System.out.println(" It's Free seat. you can't cancel this seat ");
                     cancelTicket_continue();
                 } else {
-                    seatsInTheater[0][seat_number] = 0;
-                    person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
-                    ticketDetails.remove(ticket);
+                    seatsInTheater[0][seat_number-1] = 0;
+                    if (ticketDetails.get(0).getRow() == row_number && ticketDetails.get(0).getSeat() == seat_number){
+                        ticketDetails.remove(0);
+                    } else return;
                     System.out.println(" Successfully canceled ");
                     menu();
                 }
             } else {
                 System.out.println("Invalid seat number.");
             }
-
-
-        } else if (row_number == 1) {
-            if (seat_number >= 0 && seat_number <= 15) {
-                if (seatsInTheater[1][seat_number] == 0) {
-                    System.out.println(" It's Free seat. you can't cancel this seat ");
-                    cancelTicket_continue();
-
-                } else {
-                    seatsInTheater[1][seat_number] = 0;
-                    person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
-                    ticketDetails.remove(ticket);
-                    System.out.println(" Successfully canceled ");
-                    menu();
-                }
-            } else {
-                System.out.println("Invalid seat number.");
-            }
-
-
         } else if (row_number == 2) {
+            if (seat_number >= 0 && seat_number <= 15) {
+                if (seatsInTheater[1][seat_number-1] == 0) {
+                    System.out.println(" It's Free seat. you can't cancel this seat ");
+                    cancelTicket_continue();
+
+                } else {
+                    seatsInTheater[1][seat_number-1] = 0;
+                    if (ticketDetails.get(1).getRow() == row_number && ticketDetails.get(1).getSeat() == seat_number){
+                        ticketDetails.remove(0);
+                    }
+                    System.out.println(" Successfully canceled ");
+                    menu();
+                }
+            } else {
+                System.out.println("Invalid seat number.");
+            }
+
+
+        } else if (row_number == 3) {
             if (seat_number >= 0 && seat_number <= 19) {
-                if (seatsInTheater[2][seat_number] == 0) {
+                if (seatsInTheater[2][seat_number-1] == 0) {
                     System.out.println(" It's Free seat. you can't cancel this seat ");
                     cancelTicket_continue();
                 } else {
-                    seatsInTheater[2][seat_number] = 0;
-                    person = new Person(name, surName, email);
-                    ticket = new Ticket(row_number + 1, seat_number + 1, price, person);
-                    ticketDetails.remove(ticket);
+                    seatsInTheater[2][seat_number-1] = 0;
+                    if (ticketDetails.get(2).getRow() == row_number && ticketDetails.get(2).getSeat() == seat_number){
+                        ticketDetails.remove(0);
+                    }
                     System.out.println(" Successfully canceled ");
                     menu();
                 }
@@ -321,6 +300,7 @@ public class Theatre {
     }
 
 
+    //
     public static void cancelTicket_continue() {
         Scanner Input = new Scanner(System.in);
         System.out.println();
@@ -400,19 +380,22 @@ public class Theatre {
         for (int i = 0; i < ticketDetails.size(); i++) {
             totalPrice = totalPrice + ticketDetails.get(i).getPrice();
         }
-
         System.out.println("Total ticket price " + totalPrice);
 
     }
 
     public static void sort_tickets() {
-        Collections.sort(ticketDetails, new Comparator<Ticket>() {
-            @Override
-            public int compare(Ticket ticket1, Ticket ticket2) {
-                int priceSort = (int) (ticket1.getPrice() - ticket2.getPrice());
-                return priceSort;
+        int n = ticketDetails.size();
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n-i-1; j++) {
+                Ticket ticket1 = ticketDetails.get(j);
+                Ticket ticket2 = ticketDetails.get(j+1);
+                if (ticket1.getPrice() > ticket2.getPrice()) {
+                    ticketDetails.set(j, ticket2);
+                    ticketDetails.set(j+1, ticket1);
+                }
             }
-        });
+        }
         menu();
     }
 
