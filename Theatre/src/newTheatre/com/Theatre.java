@@ -76,7 +76,7 @@ public class Theatre {
 
 
     //This is buy ticket method. In menu printing part, when user enter 1, then this method will run.
-    //This method get user details, row number and seat number using scanner.
+    //This method get user details, name, surname, email, row number, seat number and price using scanner.
     //Then validate each row number and each row's seat number input is in 2D array range.
     //check each row's seat number = 1 ?. then print "Seat is already booked".
     //check each row's seat number = 0 ?. then set seat number = 1. print  "Seat booked successfully!".
@@ -171,7 +171,7 @@ public class Theatre {
         }
     }
 
-    // In buy ticket part, when user enter already entered row and seat number, then display  "Seat is already booked".
+    // In buy ticket part, when user enter already booked row and seat number, then display  "Seat is already booked".
     //After that message buyTicket_continue() method running.
     //In buyTicket_continue method ask "Would you like to continue with buy ticket option?".
     // user answer is yes, then run again buy_ticket method. if no, run menu method.
@@ -300,7 +300,10 @@ public class Theatre {
     }
 
 
-    //
+    // In cancel ticket part, when user enter already free row and seat number, then display  "It's Free seat. you can't cancel this seat".
+    //After that message cancelTicket_continue() method running.
+    //In cancelTicket_continue method ask "Would you like to continue with cancel ticket option?".
+    // user answer is yes, then run again cancel_ticket method. if no, run menu method.
     public static void cancelTicket_continue() {
         Scanner Input = new Scanner(System.in);
         System.out.println();
@@ -316,10 +319,13 @@ public class Theatre {
         }
     }
 
+
+    //In this method print current available seats.
+    //The method uses two nested for-loops; the outer for-loop moves the theater's rows, and the inner for-loop moves the seats in each row.
+    //After printing the available seats in a row and the menu() method print
     public static void show_available() {
         for (int i = 0; i < 3; i++) {
             System.out.print("Seats available in row " + (i + 1) + ": ");
-
             for (int a = 0; a < seatsInTheater[i].length; a++) {
                 if (seatsInTheater[i][a] == 0)
                     System.out.print((a + 1) + " ");
@@ -330,6 +336,11 @@ public class Theatre {
         menu();
     }
 
+
+    //This method creating  a text file called "Theater Seat.txt".
+    //After creating text file,  row and seat details write a file using BufferedWriter.
+    //The outer for loop iterates through each row of the 2D array.
+    //The inner for loop iterates through each column (seats) of the 2D array.
     public static void save() {
         try {
             BufferedWriter arrayWrite = new BufferedWriter(new FileWriter("Theater Seat.txt"));
@@ -348,6 +359,7 @@ public class Theatre {
     }
 
 
+    //The data written to the file in the save method is read using the load method and BufferedReader is used for this.
     public static void load() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Theater Seat.txt"));
@@ -368,7 +380,10 @@ public class Theatre {
         menu();
     }
 
-
+    //Seats can be booked using the buy_ticket method.
+    //When booking in this way, the name, surname, email, row number, column number and price are obtained from the user.
+    //This method is used to print all the obtained information separately.
+    //Finally, the total ticket price is printed
     public static void show_tickets_info() {
         ticketDetails.forEach((n) -> {
             Ticket currentTicket = n;
@@ -384,6 +399,9 @@ public class Theatre {
 
     }
 
+    //The show_tickets_info method shows all the information related to the seats booked using the buy_ticket method separately.
+    //But all the information related to the seats booked using the sort method is sorted according to the price.
+    //Sorted using bubble sort method.
     public static void sort_tickets() {
         int n = ticketDetails.size();
         for (int i = 0; i < n-1; i++) {
@@ -399,7 +417,7 @@ public class Theatre {
         menu();
     }
 
-
+    //When you enter 0 from the menu to end the program, the string text in this method will be printed and the program will end.
     public static void exit() {
         System.out.println("""
                 ------------------------------------------------------------------------------------------------   

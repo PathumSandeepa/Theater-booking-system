@@ -30,6 +30,8 @@ public class Ticket {
         return customerDetails;
     }
 
+    //print method in class Ticket called print that prints all the information
+    // from a ticket: Person name, Person surname, Person email, row, seat, and price
     public void print(){
         System.out.println();
         System.out.println("Name : " + customerDetails.getName());
