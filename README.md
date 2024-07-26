@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-  <h1> Theater Booking System - JAVA , </h1>
+  <h1> Theater Booking System - JAVA </h1>
   <p>This is a Java-based theater booking system created as an individual project for a university course. It was developed for the Software Development 2 module final project in the first year. The system allows users to book seats for theater shows, view seating arrangements, and manage ticket bookings with ease. The project showcases the implementation of various functionalities such as user login, seat booking, updating, and canceling bookings, as well as file operations for saving and loading data.</p>
 
   <h2> Features:</h2>
