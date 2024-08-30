@@ -17,7 +17,7 @@
     <li>Save and load seating data from file</li>
     <li>Sort tickets by price</li>
     <li>Print ticket information and total price</li>
-  </ul
+  </ul>
 
   <h2> GitHub Repository:</h2>
   <p><a href="https://github.com/PathumSandeepa/Theater-booking-system-JAVA.git">https://github.com/PathumSandeepa/Theater-booking-system-JAVA.git</a></p>
